@@ -103,17 +103,17 @@ const PaymentTracking = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Payment Tracking</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Payment Tracking</h1>
           <p className="text-muted-foreground">Monitor payment status for your organized orders</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <Button variant="outline" className="w-full sm:w-auto">
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" className="w-full sm:w-auto">
             <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
@@ -132,11 +132,11 @@ const PaymentTracking = () => {
           return (
             <Card key={order.id}>
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      {order.restaurant}
-                      <Badge variant={order.status === 'active' ? 'default' : 'secondary'}>
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-2">
+                      <span>{order.restaurant}</span>
+                      <Badge variant={order.status === 'active' ? 'default' : 'secondary'} className="w-fit">
                         {order.status === 'active' ? 'Active' : 'Completed'}
                       </Badge>
                     </CardTitle>
@@ -144,7 +144,7 @@ const PaymentTracking = () => {
                       Created {order.createdDate} • Due {order.dueDate}
                     </CardDescription>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left sm:text-right">
                     <div className="text-2xl font-bold text-foreground">
                       ${order.totalAmount.toFixed(2)}
                     </div>
@@ -176,20 +176,23 @@ const PaymentTracking = () => {
               <CardContent>
                 <div className="space-y-4">
                   {/* Quick Actions */}
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Button 
                       size="sm" 
                       variant="outline"
                       onClick={() => sendBulkReminder(order.id)}
                       disabled={order.status === 'completed'}
+                      className="w-full sm:w-auto"
                     >
                       <Mail className="h-4 w-4 mr-2" />
-                      Send Bulk Reminder
+                      <span className="hidden sm:inline">Send Bulk Reminder</span>
+                      <span className="sm:hidden">Bulk Reminder</span>
                     </Button>
                     <Button 
                       size="sm" 
                       variant="outline"
                       onClick={() => navigate(`/order/${order.id}`)}
+                      className="w-full sm:w-auto"
                     >
                       View Details
                     </Button>
@@ -202,18 +205,18 @@ const PaymentTracking = () => {
                       {order.participants.map((participant, index) => (
                         <div 
                           key={index}
-                          className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                          className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors gap-3"
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 flex-1">
                             {getStatusIcon(participant.status, participant.paymentMethod)}
-                            <div>
+                            <div className="flex-1">
                               <div className="font-medium">{participant.name}</div>
                               <div className="text-sm text-muted-foreground">{participant.email}</div>
                             </div>
                           </div>
                           
-                          <div className="flex items-center gap-3">
-                            <div className="text-right">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                            <div className="text-left sm:text-right">
                               <div className="font-medium">${participant.amount.toFixed(2)}</div>
                               {participant.paymentMethod && (
                                 <div className="text-xs text-muted-foreground capitalize">
@@ -222,18 +225,22 @@ const PaymentTracking = () => {
                               )}
                             </div>
                             
-                            {getStatusBadge(participant.status)}
-                            
-                            {participant.status === 'pending' && order.status === 'active' && (
-                              <Button 
-                                size="sm" 
-                                variant="outline"
-                                onClick={() => sendReminder(order.id, participant.email, participant.name)}
-                              >
-                                <Mail className="h-3 w-3 mr-1" />
-                                Remind
-                              </Button>
-                            )}
+                            <div className="flex items-center gap-2">
+                              {getStatusBadge(participant.status)}
+                              
+                              {participant.status === 'pending' && order.status === 'active' && (
+                                <Button 
+                                  size="sm" 
+                                  variant="outline"
+                                  onClick={() => sendReminder(order.id, participant.email, participant.name)}
+                                  className="w-full sm:w-auto"
+                                >
+                                  <Mail className="h-3 w-3 mr-1" />
+                                  <span className="sm:hidden">Send Reminder</span>
+                                  <span className="hidden sm:inline">Remind</span>
+                                </Button>
+                              )}
+                            </div>
                           </div>
                         </div>
                       ))}

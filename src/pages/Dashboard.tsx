@@ -90,26 +90,26 @@ const Dashboard = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Dashboard</h1>
           <p className="text-muted-foreground">Manage your lunch orders and payments</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <Button 
             variant="outline" 
             onClick={() => navigate("/notifications")}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto"
           >
             <Clock className="h-4 w-4" />
-            Join Order
+            <span className="sm:inline">Join Order</span>
           </Button>
           <Button 
             onClick={() => navigate("/create-order")}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto"
           >
             <Plus className="h-4 w-4" />
-            Create Order
+            <span className="sm:inline">Create Order</span>
           </Button>
         </div>
       </div>
@@ -152,22 +152,23 @@ const Dashboard = () => {
                 className="p-4 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
                 onClick={() => navigate(`/order/${order.id}`)}
               >
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                   <h4 className="font-semibold text-foreground">{order.restaurant}</h4>
                   <Badge 
                     variant={order.status === 'open' ? 'default' : 'secondary'}
+                    className="w-fit"
                   >
                     {order.status === 'open' ? 'Open' : 'Closed'}
                   </Badge>
                 </div>
-                <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-sm text-muted-foreground mb-2">
                   <span>Organized by {order.organizer}</span>
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
                     {order.dueDate}
                   </span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <span className="text-sm">
                     {order.participants} participants • ${order.totalAmount}
                   </span>
@@ -206,17 +207,18 @@ const Dashboard = () => {
                   className="p-4 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
                   onClick={() => navigate(`/payment/${payment.id}`)}
                 >
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                     <h4 className="font-semibold text-foreground">
                       {payment.restaurant}
                     </h4>
                     <Badge 
                       variant={payment.overdue ? 'destructive' : 'secondary'}
+                      className="w-fit"
                     >
                       {payment.overdue ? 'Overdue' : 'Due'}
                     </Badge>
                   </div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="text-sm text-muted-foreground">
                       Due: {payment.dueDate}
                     </span>

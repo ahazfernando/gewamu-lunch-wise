@@ -188,19 +188,21 @@ const CreateOrder = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Create Order</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Create Order</h1>
           <p className="text-muted-foreground">Set up a new lunch order for your team</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={handleSaveOrder}>
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <Button variant="outline" onClick={handleSaveOrder} className="w-full sm:w-auto">
             <Save className="h-4 w-4 mr-2" />
-            Save Draft
+            <span className="hidden sm:inline">Save Draft</span>
+            <span className="sm:hidden">Save</span>
           </Button>
-          <Button onClick={handleSendOrder}>
+          <Button onClick={handleSendOrder} className="w-full sm:w-auto">
             <Send className="h-4 w-4 mr-2" />
-            Send to Participants
+            <span className="hidden sm:inline">Send to Participants</span>
+            <span className="sm:hidden">Send</span>
           </Button>
         </div>
       </div>
@@ -240,21 +242,23 @@ const CreateOrder = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Add New Item */}
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   placeholder="Item name"
                   value={newItem.name}
                   onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                  className="flex-1"
                 />
                 <Input
                   type="number"
                   placeholder="Price"
                   value={newItem.price}
                   onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-                  className="w-32"
+                  className="w-full sm:w-32"
                 />
-                <Button onClick={addItem}>
+                <Button onClick={addItem} className="w-full sm:w-auto">
                   <Plus className="h-4 w-4" />
+                  <span className="ml-2 sm:hidden">Add Item</span>
                 </Button>
               </div>
 
@@ -262,12 +266,12 @@ const CreateOrder = () => {
               {items.length > 0 && (
                 <div className="space-y-2">
                   {items.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex items-center gap-3">
+                    <div key={item.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg gap-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                         <span className="font-medium">{item.name}</span>
                         <span className="text-muted-foreground">${item.price.toFixed(2)}</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 justify-end">
                         <Button
                           size="sm"
                           variant="outline"
@@ -342,20 +346,23 @@ const CreateOrder = () => {
               </div>
 
               {/* Add New Participant */}
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   placeholder="Participant name"
                   value={newParticipant.name}
                   onChange={(e) => setNewParticipant({ ...newParticipant, name: e.target.value })}
+                  className="flex-1"
                 />
                 <Input
                   type="email"
                   placeholder="Email"
                   value={newParticipant.email}
                   onChange={(e) => setNewParticipant({ ...newParticipant, email: e.target.value })}
+                  className="flex-1"
                 />
-                <Button onClick={addParticipant}>
+                <Button onClick={addParticipant} className="w-full sm:w-auto">
                   <Plus className="h-4 w-4" />
+                  <span className="ml-2 sm:hidden">Add</span>
                 </Button>
               </div>
 
@@ -363,12 +370,12 @@ const CreateOrder = () => {
               {participants.length > 0 && (
                 <div className="space-y-2">
                   {participants.map((participant) => (
-                    <div key={participant.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div>
+                    <div key={participant.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg gap-3">
+                      <div className="flex-1">
                         <div className="font-medium">{participant.name}</div>
                         <div className="text-sm text-muted-foreground">{participant.email}</div>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 justify-end">
                         <Input
                           type="number"
                           value={participant.assignedAmount}
@@ -401,7 +408,7 @@ const CreateOrder = () => {
 
         {/* Order Summary */}
         <div>
-          <Card className="sticky top-6">
+          <Card className="lg:sticky lg:top-6">
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
             </CardHeader>
