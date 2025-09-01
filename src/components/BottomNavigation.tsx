@@ -25,7 +25,7 @@ export function BottomNavigation() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50">
-      <div className="flex items-center justify-around h-16 px-2">
+      <div className="flex items-center justify-around px-2" style={{ height: '120px' }}>
         {navigationItems.map((item) => {
           const active = isActive(item.url);
           
@@ -37,7 +37,7 @@ export function BottomNavigation() {
                 className="flex flex-col items-center justify-center"
               >
                 <div className={cn(
-                  "w-12 h-12 rounded-full flex items-center justify-center transition-colors",
+                  "w-24 h-24 rounded-full flex items-center justify-center transition-colors",
                   active 
                     ? "bg-primary text-primary-foreground" 
                     : "bg-primary text-primary-foreground hover:bg-primary/90"
@@ -55,10 +55,11 @@ export function BottomNavigation() {
             <NavLink
               key={item.title}
               to={item.url}
-              className="flex flex-col items-center justify-center min-w-0 flex-1 py-2"
+              className="flex flex-col items-center justify-center min-w-0 flex-1"
+              style={{ padding: '48px' }}
             >
               <item.icon className={cn(
-                "h-5 w-5 transition-colors",
+                "h-6 w-6 transition-colors",
                 active 
                   ? "text-primary" 
                   : "text-muted-foreground hover:text-foreground"

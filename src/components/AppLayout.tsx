@@ -10,7 +10,7 @@ export function AppLayout() {
 
   if (isMobile) {
     return (
-      <div className="min-h-screen bg-background pb-16">
+      <div className="min-h-screen bg-background pb-32">
         <header className="h-16 border-b bg-background flex items-center px-6">
           <div>
             <h1 className="text-xl font-semibold text-foreground">Gewamu</h1>

@@ -60,7 +60,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavClass}>
-                      <item.icon className="h-4 w-4" />
+                      <item.icon className="h-6 w-6" />
                       {!isCollapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
@@ -76,7 +76,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <NavLink to="/settings" className={getNavClass}>
-                <Settings className="h-4 w-4" />
+                <Settings className="h-6 w-6" />
                 {!isCollapsed && <span>Settings</span>}
               </NavLink>
             </SidebarMenuButton>
@@ -84,7 +84,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <NavLink to="/login" className="text-sidebar-foreground hover:bg-destructive/20 hover:text-destructive">
-                <LogOut className="h-4 w-4" />
+                <LogOut className="h-6 w-6" />
                 {!isCollapsed && <span>Logout</span>}
               </NavLink>
             </SidebarMenuButton>
