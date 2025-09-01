@@ -4,51 +4,59 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { useIsMobile } from "@/hooks/use-mobile";
-import logo from "@/assets/LunchPayLogo-Primary.png";
+// import logo from "@/assets/LunchPayLogo-Primary.png";
 
 export function AppLayout() {
-  const isMobile = useIsMobile();
+    const isMobile = useIsMobile();
 
-  if (isMobile) {
+    if (isMobile) {
+        return (
+            <div className="min-h-screen bg-background pb-32">
+                <header className="h-16 border-b bg-background flex items-center px-6">
+                    <div className="flex items-center gap-3">
+                        {/* <img src={logo} alt="Gewamu Logo" className="h-10 w-auto" /> */}
+                        <div>
+                            <h1 className="text-xl font-semibold text-foreground">
+                                Gewamu
+                            </h1>
+                            <p className="text-sm text-muted-foreground">
+                                Smart Office Lunch Splitter
+                            </p>
+                        </div>
+                    </div>
+                </header>
+                <main className="p-4">
+                    <Outlet />
+                </main>
+                <BottomNavigation />
+            </div>
+        );
+    }
+
     return (
-      <div className="min-h-screen bg-background pb-32">
-        <header className="h-16 border-b bg-background flex items-center px-6">
-          <div className="flex items-center gap-3">
-            <img src={logo} alt="Gewamu Logo" className="h-10 w-auto" />
-            <div>
-              <h1 className="text-xl font-semibold text-foreground">Gewamu</h1>
-              <p className="text-sm text-muted-foreground">Smart Office Lunch Splitter</p>
+        <SidebarProvider>
+            <div className="min-h-screen flex w-full">
+                <AppSidebar />
+                <main className="flex-1">
+                    <header className="h-16 border-b bg-background flex items-center px-6">
+                        <SidebarTrigger />
+                        <div className="ml-4 flex items-center gap-3">
+                            {/* <img src={logo} alt="Gewamu Logo" className="h-10 w-auto" /> */}
+                            <div>
+                                <h1 className="text-xl font-semibold text-foreground">
+                                    Gewamu
+                                </h1>
+                                <p className="text-sm text-muted-foreground">
+                                    Smart Office Lunch Splitter
+                                </p>
+                            </div>
+                        </div>
+                    </header>
+                    <div className="p-6">
+                        <Outlet />
+                    </div>
+                </main>
             </div>
-          </div>
-        </header>
-        <main className="p-4">
-          <Outlet />
-        </main>
-        <BottomNavigation />
-      </div>
+        </SidebarProvider>
     );
-  }
-
-  return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
-        <AppSidebar />
-        <main className="flex-1">
-          <header className="h-16 border-b bg-background flex items-center px-6">
-            <SidebarTrigger />
-            <div className="ml-4 flex items-center gap-3">
-              <img src={logo} alt="Gewamu Logo" className="h-10 w-auto" />
-              <div>
-                <h1 className="text-xl font-semibold text-foreground">Gewamu</h1>
-                <p className="text-sm text-muted-foreground">Smart Office Lunch Splitter</p>
-              </div>
-            </div>
-          </header>
-          <div className="p-6">
-            <Outlet />
-          </div>
-        </main>
-      </div>
-    </SidebarProvider>
-  );
 }

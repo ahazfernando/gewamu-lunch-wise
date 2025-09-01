@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/dbConnect";
-import Payment from "@/models/Payment";
+import Group from "@/models/Group";
 import { verifyJwt } from "@/lib/auth";
 
 export default async function handler(
@@ -17,27 +17,24 @@ export default async function handler(
     if (!userId) return res.status(401).json({ error: "Unauthorized" });
 
     if (req.method === "POST") {
-        // Submit payment
-        const { group, amount } = req.body;
-        if (!group || !amount)
+        // Create group
+        const { name, participants, totalAmount, splitType } = req.body;
+        if (!name || !participants || !totalAmount || !splitType)
             return res.status(400).json({ error: "Missing fields" });
-        const payment = await (
-            Payment as typeof import("mongoose").Model
-        ).create({
-            group,
-            participant: userId,
-            amount,
-            status: "submitted",
-            submittedAt: new Date(),
-            history: [{ status: "submitted", date: new Date() }],
+        const group = await (Group as typeof import("mongoose").Model).create({
+            name,
+            organizer: userId,
+            participants,
+            totalAmount,
+            splitType,
         });
-        return res.status(201).json(payment);
+        return res.status(201).json(group);
     } else if (req.method === "GET") {
-        // List payments for user
-        const payments = await (
-            Payment as typeof import("mongoose").Model
-        ).find({ participant: userId });
-        return res.status(200).json(payments);
+        // List groups for user
+        const groups = await (Group as typeof import("mongoose").Model).find({
+            organizer: userId,
+        });
+        return res.status(200).json(groups);
     } else {
         return res.status(405).end();
     }
