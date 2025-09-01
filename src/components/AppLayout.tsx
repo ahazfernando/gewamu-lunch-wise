@@ -4,7 +4,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { useIsMobile } from "@/hooks/use-mobile";
-import logo from "@/assets/LunchPayLogo-Primary.png";
+import logo from "../../public/Home/LunchPayLogo-Primary.png"
 
 export function AppLayout() {
   const isMobile = useIsMobile();

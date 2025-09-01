@@ -13,13 +13,8 @@ import {
   Calendar,
   AlertTriangle
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
 
 const Notifications = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -97,39 +92,32 @@ const Notifications = () => {
     }
   ]);
 
-  const handleNotificationAction = (notificationId: number, action: 'accept' | 'decline' | 'pay' | 'view') => {
+  const handleNotificationAction = (notificationId, action) => {
     const notification = notifications.find(n => n.id === notificationId);
     if (!notification) return;
 
     switch (action) {
       case 'accept':
-        toast({
-          title: "Order Joined",
-          description: `You've joined the ${notification.data.restaurant} order`,
-        });
+        alert(`You've joined the ${notification.data.restaurant} order`);
         markAsRead(notificationId);
-        navigate(`/order/${notification.data.orderId}`);
         break;
       
       case 'decline':
-        toast({
-          title: "Order Declined",
-          description: `You've declined the ${notification.data.restaurant} order`,
-        });
+        alert(`You've declined the ${notification.data.restaurant} order`);
         markAsRead(notificationId);
         break;
       
       case 'pay':
-        navigate(`/payment/${notification.data.orderId}`);
+        alert(`Redirecting to payment for $${notification.data.amount}`);
         break;
       
       case 'view':
-        navigate(`/order/${notification.data.orderId}`);
+        alert(`Viewing order details for ${notification.data.restaurant}`);
         break;
     }
   };
 
-  const markAsRead = (notificationId: number) => {
+  const markAsRead = (notificationId) => {
     setNotifications(notifications.map(n => 
       n.id === notificationId ? { ...n, isRead: true } : n
     ));
@@ -137,35 +125,29 @@ const Notifications = () => {
 
   const markAllAsRead = () => {
     setNotifications(notifications.map(n => ({ ...n, isRead: true })));
-    toast({
-      title: "All Notifications Read",
-      description: "Marked all notifications as read",
-    });
+    alert("All notifications marked as read");
   };
 
-  const sendReminder = (participantName: string) => {
-    toast({
-      title: "Reminder Sent",
-      description: `Payment reminder sent to ${participantName}`,
-    });
+  const sendReminder = (participantName) => {
+    alert(`Payment reminder sent to ${participantName}`);
   };
 
-  const getNotificationIcon = (type: string, urgent: boolean) => {
-    const iconClass = urgent ? "text-destructive" : "text-primary";
+  const getNotificationIcon = (type, urgent) => {
+    const iconClass = urgent ? "text-red-500" : "text-blue-500";
     
     switch (type) {
       case "order_invite":
-        return <Users className={`h-5 w-5 ${iconClass}`} />;
+        return <Users className={`h-4 w-4 sm:h-5 sm:w-5 ${iconClass}`} />;
       case "payment_reminder":
-        return <AlertTriangle className={`h-5 w-5 ${iconClass}`} />;
+        return <AlertTriangle className={`h-4 w-4 sm:h-5 sm:w-5 ${iconClass}`} />;
       case "payment_received":
-        return <DollarSign className={`h-5 w-5 ${iconClass}`} />;
+        return <DollarSign className={`h-4 w-4 sm:h-5 sm:w-5 ${iconClass}`} />;
       case "order_reminder":
-        return <Clock className={`h-5 w-5 ${iconClass}`} />;
+        return <Clock className={`h-4 w-4 sm:h-5 sm:w-5 ${iconClass}`} />;
       case "order_complete":
-        return <Check className={`h-5 w-5 ${iconClass}`} />;
+        return <Check className={`h-4 w-4 sm:h-5 sm:w-5 ${iconClass}`} />;
       default:
-        return <Bell className={`h-5 w-5 ${iconClass}`} />;
+        return <Bell className={`h-4 w-4 sm:h-5 sm:w-5 ${iconClass}`} />;
     }
   };
 
@@ -178,23 +160,26 @@ const Notifications = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
-            Notifications
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="w-full sm:w-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+            <span>Notifications</span>
             {unreadCount > 0 && (
-              <Badge variant="destructive" className="text-xs">
+              <Badge className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
                 {unreadCount} new
               </Badge>
             )}
           </h1>
-          <p className="text-muted-foreground">Stay updated on your lunch orders and payments</p>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Stay updated on your lunch orders and payments</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
           {unreadCount > 0 && (
-            <Button variant="outline" onClick={markAllAsRead}>
+            <Button 
+              className="w-full sm:w-auto border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 px-3 py-2 text-sm"
+              onClick={markAllAsRead}
+            >
               <Check className="h-4 w-4 mr-2" />
               Mark All Read
             </Button>
@@ -202,77 +187,79 @@ const Notifications = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
         {/* Notifications List */}
-        <div className="lg:col-span-2 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5" />
+        <div className="xl:col-span-2 space-y-3 sm:space-y-4">
+          <Card className="shadow-sm">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
                 Recent Notifications
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6 pt-0">
               {notifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className={`p-4 border rounded-lg transition-all ${
+                  className={`p-3 sm:p-4 border rounded-lg transition-all ${
                     notification.isRead 
-                      ? 'bg-background border-border' 
-                      : 'bg-muted/50 border-primary/20 shadow-sm'
-                  } ${notification.urgent ? 'border-destructive/30' : ''}`}
+                      ? 'bg-white border-gray-200' 
+                      : 'bg-blue-50 border-blue-200 shadow-sm'
+                  } ${notification.urgent ? 'border-red-300 bg-red-50' : ''}`}
                 >
-                  <div className="flex items-start gap-3">
-                    {getNotificationIcon(notification.type, notification.urgent)}
+                  <div className="flex flex-col sm:flex-row items-start gap-3">
+                    <div className="flex-shrink-0">
+                      {getNotificationIcon(notification.type, notification.urgent)}
+                    </div>
                     
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <h4 className={`font-semibold ${
-                          !notification.isRead ? 'text-foreground' : 'text-muted-foreground'
-                        }`}>
+                    <div className="flex-1 space-y-2 min-w-0 w-full">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h4 className={`font-semibold text-sm sm:text-base ${
+                          !notification.isRead ? 'text-gray-900' : 'text-gray-600'
+                        } truncate`}>
                           {notification.title}
                         </h4>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-shrink-0">
                           {notification.urgent && (
-                            <Badge variant="destructive" className="text-xs">Urgent</Badge>
+                            <Badge className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                              Urgent
+                            </Badge>
                           )}
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-gray-500 whitespace-nowrap">
                             {notification.timestamp}
                           </span>
                         </div>
                       </div>
                       
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                         {notification.message}
                       </p>
 
                       {/* Action Buttons */}
-                      <div className="flex gap-2 pt-2">
+                      <div className="flex flex-col sm:flex-row gap-2 pt-2">
                         {notification.type === 'order_invite' && !notification.isRead && (
-                          <>
+                          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                             <Button 
-                              size="sm"
+                              className="bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-xs sm:text-sm"
                               onClick={() => handleNotificationAction(notification.id, 'accept')}
                             >
                               <Check className="h-3 w-3 mr-1" />
                               Join Order
                             </Button>
                             <Button 
-                              size="sm" 
-                              variant="outline"
+                              className="border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 px-3 py-2 text-xs sm:text-sm"
                               onClick={() => handleNotificationAction(notification.id, 'decline')}
                             >
                               <X className="h-3 w-3 mr-1" />
                               Decline
                             </Button>
-                          </>
+                          </div>
                         )}
                         
                         {notification.type === 'payment_reminder' && !notification.isRead && (
                           <Button 
-                            size="sm"
+                            className="bg-yellow-500 text-white hover:bg-yellow-600 px-3 py-2 text-xs sm:text-sm w-full sm:w-auto"
                             onClick={() => handleNotificationAction(notification.id, 'pay')}
-                            className="bg-warning text-warning-foreground hover:bg-warning/90"
                           >
                             <DollarSign className="h-3 w-3 mr-1" />
                             Pay ${notification.data.amount}
@@ -280,8 +267,7 @@ const Notifications = () => {
                         )}
                         
                         <Button 
-                          size="sm" 
-                          variant="ghost"
+                          className="border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 px-3 py-2 text-xs sm:text-sm w-full sm:w-auto"
                           onClick={() => handleNotificationAction(notification.id, 'view')}
                         >
                           View Details
@@ -293,10 +279,10 @@ const Notifications = () => {
               ))}
 
               {notifications.length === 0 && (
-                <div className="text-center py-8">
-                  <Bell className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="font-semibold text-lg mb-2">No Notifications</h3>
-                  <p className="text-muted-foreground">
+                <div className="text-center py-6 sm:py-8">
+                  <Bell className="h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="font-semibold text-base sm:text-lg mb-2">No Notifications</h3>
+                  <p className="text-gray-600 text-sm sm:text-base">
                     You're all caught up! New notifications will appear here.
                   </p>
                 </div>
@@ -306,41 +292,41 @@ const Notifications = () => {
         </div>
 
         {/* Quick Actions Sidebar */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Pending Reminders */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Mail className="h-5 w-5" />
+          <Card className="shadow-sm">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
                 Send Reminders
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm">
                 Participants with pending payments
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 p-4 sm:p-6 pt-0">
               {pendingParticipants.length > 0 ? (
                 pendingParticipants.map((participant, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                    <div>
-                      <div className="font-medium text-sm">{participant.name}</div>
-                      <div className="text-xs text-muted-foreground">
+                  <div key={index} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-3 border rounded-lg">
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-sm truncate">{participant.name}</div>
+                      <div className="text-xs text-gray-600">
                         ${participant.amount} • {participant.restaurant}
                       </div>
                     </div>
                     <Button 
-                      size="sm" 
-                      variant="outline"
+                      className="border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 px-3 py-2 text-xs w-full sm:w-auto"
                       onClick={() => sendReminder(participant.name)}
                     >
-                      <Mail className="h-3 w-3" />
+                      <Mail className="h-3 w-3 sm:mr-1" />
+                      <span className="sm:inline hidden">Send</span>
                     </Button>
                   </div>
                 ))
               ) : (
                 <div className="text-center py-4">
-                  <Check className="h-8 w-8 text-success mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">
+                  <Check className="h-6 w-6 sm:h-8 sm:w-8 text-green-500 mx-auto mb-2" />
+                  <p className="text-xs sm:text-sm text-gray-600">
                     No pending payments
                   </p>
                 </div>
@@ -349,54 +335,51 @@ const Notifications = () => {
           </Card>
 
           {/* Quick Stats */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Today's Summary</CardTitle>
+          <Card className="shadow-sm">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-base sm:text-lg">Today's Summary</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 p-4 sm:p-6 pt-0">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Open Orders</span>
-                <span className="font-semibold">2</span>
+                <span className="text-xs sm:text-sm text-gray-600">Open Orders</span>
+                <span className="font-semibold text-sm sm:text-base">2</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Pending Payments</span>
-                <span className="font-semibold text-warning">$42.75</span>
+                <span className="text-xs sm:text-sm text-gray-600">Pending Payments</span>
+                <span className="font-semibold text-yellow-600 text-sm sm:text-base">$42.75</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Due Today</span>
-                <span className="font-semibold text-destructive">$18.50</span>
+                <span className="text-xs sm:text-sm text-gray-600">Due Today</span>
+                <span className="font-semibold text-red-600 text-sm sm:text-base">$18.50</span>
               </div>
             </CardContent>
           </Card>
 
           {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
+          <Card className="shadow-sm">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-base sm:text-lg">Quick Actions</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-2 p-4 sm:p-6 pt-0">
               <Button 
-                variant="outline" 
-                className="w-full justify-start"
-                onClick={() => navigate('/create-order')}
+                className="w-full justify-start border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 px-3 py-2 text-xs sm:text-sm"
+                onClick={() => alert('Creating new order...')}
               >
-                <Users className="h-4 w-4 mr-2" />
+                <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                 Create New Order
               </Button>
               <Button 
-                variant="outline" 
-                className="w-full justify-start"
-                onClick={() => navigate('/payment-tracking')}
+                className="w-full justify-start border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 px-3 py-2 text-xs sm:text-sm"
+                onClick={() => alert('Tracking payments...')}
               >
-                <DollarSign className="h-4 w-4 mr-2" />
+                <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                 Track Payments
               </Button>
               <Button 
-                variant="outline" 
-                className="w-full justify-start"
-                onClick={() => navigate('/history')}
+                className="w-full justify-start border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 px-3 py-2 text-xs sm:text-sm"
+                onClick={() => alert('Viewing history...')}
               >
-                <Calendar className="h-4 w-4 mr-2" />
+                <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                 View History
               </Button>
             </CardContent>

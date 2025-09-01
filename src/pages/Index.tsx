@@ -53,9 +53,11 @@ const Index = () => {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-primary rounded-lg p-2">
-              <Users className="h-6 w-6 text-primary-foreground" />
-            </div>
+            <img 
+              src="/Home/LunchPayLogo-Primary.png" 
+              alt="Gewamu Logo" 
+              className="h-20 w-20 object-contain"
+            />
             <div>
               <h1 className="text-xl font-bold text-primary">Gewamu</h1>
               <p className="text-xs text-muted-foreground">Smart Office Lunch Splitter</p>
@@ -177,9 +179,11 @@ const Index = () => {
       <footer className="border-t bg-muted/30">
         <div className="container mx-auto px-4 py-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="bg-primary rounded-lg p-2">
-              <Users className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <img 
+              src="/Home/LunchPayLogo-Primary.png" 
+              alt="Gewamu Logo" 
+              className="h-8 w-8 object-contain"
+            />
             <span className="font-semibold text-primary">Gewamu</span>
           </div>
           <p className="text-sm text-muted-foreground">
