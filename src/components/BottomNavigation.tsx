@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   Home,
   Plus,
+  CreditCard,
   History,
   Bell,
   BarChart3,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const navigationItems = [
   { title: "Home", url: "/", icon: Home },
@@ -16,69 +18,57 @@ const navigationItems = [
 ];
 
 export function BottomNavigation() {
-  const [currentPath, setCurrentPath] = useState('/notifications');
-
+  const location = useLocation();
+  const currentPath = location.pathname;
   const isActive = (path) => currentPath === path;
 
-  const handleNavigation = (url) => {
-    setCurrentPath(url);
-    // In a real app, you'd use navigate(url) here
-    console.log(`Navigating to: ${url}`);
-  };
-
-  const cn = (...classes) => {
-    return classes.filter(Boolean).join(' ');
-  };
-
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 pb-2 sm:pb-4 shadow-lg">
+    <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 pb-2 sm:pb-4">
       <div className="flex items-center justify-around h-16 px-2">
         {navigationItems.map((item) => {
           const active = isActive(item.url);
-          
           if (item.isCTA) {
             return (
-              <button
+              <NavLink
                 key={item.title}
-                onClick={() => handleNavigation(item.url)}
+                to={item.url}
                 className="flex flex-col items-center justify-center"
               >
                 <div className={cn(
-                  "w-12 h-12 rounded-full flex items-center justify-center transition-colors shadow-md",
+                  "w-12 h-12 rounded-full flex items-center justify-center transition-colors",
                   active
-                    ? "bg-blue-500 text-white"
-                    : "bg-blue-500 text-white hover:bg-blue-600"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-primary text-primary-foreground hover:bg-primary/90"
                 )}>
                   <item.icon className="h-6 w-6" />
                 </div>
-                <span className="text-xs mt-1 text-gray-600">
+                <span className="text-xs mt-1 text-muted-foreground">
                   {item.title}
                 </span>
-              </button>
+              </NavLink>
             );
           }
-
           return (
-            <button
+            <NavLink
               key={item.title}
-              onClick={() => handleNavigation(item.url)}
+              to={item.url}
               className="flex flex-col items-center justify-center min-w-0 flex-1 py-2"
             >
               <item.icon className={cn(
                 "h-5 w-5 transition-colors",
                 active
-                  ? "text-blue-500"
-                  : "text-gray-400 hover:text-gray-600"
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               )} />
               <span className={cn(
                 "text-xs mt-1 transition-colors truncate",
                 active
-                  ? "text-blue-500 font-medium"
-                  : "text-gray-400"
+                  ? "text-primary font-medium"
+                  : "text-muted-foreground"
               )}>
                 {item.title}
               </span>
-            </button>
+            </NavLink>
           );
         })}
       </div>
