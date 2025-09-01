@@ -86,8 +86,8 @@ const Index = () => {
             <Users className="h-5 w-5 mr-2" />
             Start Organizing
           </Button>
-          <Button size="lg" variant="outline" onClick={() => navigate('/login')}>
-            Join as Participant
+          <Button size="lg" variant="outline" onClick={() => navigate('/dashboard')}>
+            View Dashboard
           </Button>
         </div>
       </section>
