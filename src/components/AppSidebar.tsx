@@ -42,14 +42,14 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? "bg-primary text-primary-foreground hover:bg-primary/90" 
-      : "hover:bg-muted/50";
+      ? "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90" 
+      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground";
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarContent>
+    <Sidebar collapsible="icon" className="bg-sidebar border-sidebar-border">
+      <SidebarContent className="bg-sidebar">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-semibold text-muted-foreground px-2 py-1">
+          <SidebarGroupLabel className="text-sm font-semibold text-sidebar-foreground/70 px-2 py-1">
             {!isCollapsed && "Navigation"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -69,7 +69,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       
-      <SidebarFooter>
+      <SidebarFooter className="bg-sidebar border-t border-sidebar-border">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
@@ -81,7 +81,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <NavLink to="/login" className="hover:bg-destructive hover:text-destructive-foreground">
+              <NavLink to="/login" className="text-sidebar-foreground hover:bg-destructive/20 hover:text-destructive">
                 <LogOut className="h-4 w-4" />
                 {!isCollapsed && <span>Logout</span>}
               </NavLink>
