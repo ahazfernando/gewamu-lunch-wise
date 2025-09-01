@@ -5,12 +5,13 @@ import {
   CreditCard,
   History,
   Bell,
+  BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
-  { title: "Dashboard", url: "/dashboard", icon: Home },
-  { title: "Payment", url: "/payment-tracking", icon: CreditCard },
+  { title: "Home", url: "/", icon: Home },
+  { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
   { title: "Create", url: "/create-order", icon: Plus, isCTA: true },
   { title: "History", url: "/history", icon: History },
   { title: "Notifications", url: "/notifications", icon: Bell },

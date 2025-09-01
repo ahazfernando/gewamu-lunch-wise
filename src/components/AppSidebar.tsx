@@ -8,7 +8,8 @@ import {
   History,
   Bell,
   LogOut,
-  Settings
+  Settings,
+  BarChart3
 } from "lucide-react";
 
 import {
@@ -26,7 +27,8 @@ import {
 import { Button } from "@/components/ui/button";
 
 const navigationItems = [
-  { title: "Dashboard", url: "/dashboard", icon: Home },
+  { title: "Home", url: "/", icon: Home },
+  { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
   { title: "Create Order", url: "/create-order", icon: Plus },
   { title: "Payment Tracking", url: "/payment-tracking", icon: CreditCard },
   { title: "History", url: "/history", icon: History },
