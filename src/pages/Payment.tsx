@@ -16,17 +16,21 @@ import {
 } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useCurrencyConverter } from "@/hooks/useCurrencyConverter";
+import { CurrencyConverter } from "@/components/ui/currency-converter";
 
 const Payment = () => {
   const navigate = useNavigate();
   const { orderId } = useParams();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
+  const { convertUSDToLKR, formatCurrency } = useCurrencyConverter();
   
   const defaultMethod = searchParams.get('method') || 'card';
   
   const [paymentMethod, setPaymentMethod] = useState(defaultMethod);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'failed'>('idle');
+  const [currency, setCurrency] = useState<'USD' | 'LKR'>('USD');
   const [cardDetails, setCardDetails] = useState({
     number: '',
     expiry: '',
@@ -42,6 +46,9 @@ const Payment = () => {
     amount: 24.25,
     dueDate: "Today, 2:00 PM"
   };
+
+  const displayAmount = currency === 'USD' ? orderData.amount : convertUSDToLKR(orderData.amount);
+  const formattedAmount = formatCurrency(displayAmount, currency);
 
   const handlePayment = async () => {
     setPaymentStatus('processing');
@@ -145,12 +152,12 @@ const Payment = () => {
             <CheckCircle className="h-16 w-16 text-success mx-auto mb-4" />
             <h2 className="text-xl font-semibold mb-2 text-success">Payment Successful!</h2>
             <p className="text-muted-foreground mb-4">
-              Your payment of ${orderData.amount} has been processed successfully.
+              Your payment of {formattedAmount} has been processed successfully.
             </p>
             <div className="space-y-2 text-sm text-muted-foreground">
               <div>Restaurant: {orderData.restaurant}</div>
               <div>Organizer: {orderData.organizer}</div>
-              <div>Amount: ${orderData.amount}</div>
+              <div>Amount: {formattedAmount}</div>
             </div>
             <Button 
               className="w-full mt-6"
@@ -319,7 +326,7 @@ const Payment = () => {
                     <Banknote className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
                     <h3 className="font-semibold mb-2">Cash Payment</h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Hand over ${orderData.amount} to {orderData.organizer} directly
+                      Hand over {formattedAmount} to {orderData.organizer} directly
                     </p>
                     <div className="p-4 bg-muted/50 rounded-lg">
                       <p className="text-sm font-medium">Important:</p>
@@ -335,12 +342,32 @@ const Payment = () => {
         </div>
 
         {/* Payment Summary */}
-        <div>
+        <div className="space-y-6">
           <Card className="sticky top-6">
             <CardHeader>
               <CardTitle>Payment Summary</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Currency Toggle */}
+              <div className="flex items-center justify-between p-3 border rounded-lg">
+                <span className="text-sm font-medium">Currency</span>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant={currency === 'USD' ? 'default' : 'outline'}
+                    onClick={() => setCurrency('USD')}
+                  >
+                    USD
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={currency === 'LKR' ? 'default' : 'outline'}
+                    onClick={() => setCurrency('LKR')}
+                  >
+                    LKR
+                  </Button>
+                </div>
+              </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Restaurant:</span>
@@ -359,8 +386,13 @@ const Payment = () => {
               <div className="border-t pt-4">
                 <div className="flex justify-between text-lg font-semibold">
                   <span>Amount to Pay:</span>
-                  <span className="text-primary">${orderData.amount}</span>
+                  <span className="text-primary">{formattedAmount}</span>
                 </div>
+                {currency === 'LKR' && (
+                  <div className="text-sm text-muted-foreground text-right">
+                    (~${orderData.amount} USD)
+                  </div>
+                )}
               </div>
 
               {paymentStatus === 'failed' && (
@@ -381,7 +413,7 @@ const Payment = () => {
                 disabled={paymentStatus !== 'idle' && paymentStatus !== 'failed'}
               >
                 <Lock className="h-4 w-4 mr-2" />
-                {paymentMethod === 'cash' ? 'Confirm Cash Payment' : `Pay $${orderData.amount}`}
+                {paymentMethod === 'cash' ? 'Confirm Cash Payment' : `Pay ${formattedAmount}`}
               </Button>
 
               <div className="text-center">
@@ -392,6 +424,12 @@ const Payment = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Currency Converter */}
+          <CurrencyConverter
+            defaultAmount={orderData.amount}
+            defaultCurrency="USD"
+          />
         </div>
       </div>
     </div>
