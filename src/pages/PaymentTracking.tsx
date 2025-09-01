@@ -23,31 +23,31 @@ const PaymentTracking = () => {
     {
       id: 1,
       restaurant: "Sakura Sushi",
-      totalAmount: 145.50,
+      totalAmount: 46560, // 145.50 USD * 320 LKR/USD
       createdDate: "2024-01-15",
       dueDate: "Today, 2:00 PM",
       status: "active",
       participants: [
-        { name: "John Doe", email: "john@company.com", amount: 28.50, status: "paid", paymentMethod: "digital" },
-        { name: "Sarah Wilson", email: "sarah@company.com", amount: 24.25, status: "paid", paymentMethod: "digital" },
-        { name: "Mike Johnson", email: "mike@company.com", amount: 22.75, status: "pending", paymentMethod: null },
-        { name: "Lisa Chen", email: "lisa@company.com", amount: 26.50, status: "pending", paymentMethod: null },
-        { name: "David Kim", email: "david@company.com", amount: 19.25, status: "paid", paymentMethod: "cash" },
-        { name: "Emma Davis", email: "emma@company.com", amount: 24.25, status: "pending", paymentMethod: null },
+        { name: "John Doe", email: "john@company.com", amount: 9120, status: "paid", paymentMethod: "digital" },
+        { name: "Sarah Wilson", email: "sarah@company.com", amount: 7760, status: "paid", paymentMethod: "digital" },
+        { name: "Mike Johnson", email: "mike@company.com", amount: 7280, status: "pending", paymentMethod: null },
+        { name: "Lisa Chen", email: "lisa@company.com", amount: 8480, status: "pending", paymentMethod: null },
+        { name: "David Kim", email: "david@company.com", amount: 6160, status: "paid", paymentMethod: "cash" },
+        { name: "Emma Davis", email: "emma@company.com", amount: 7760, status: "pending", paymentMethod: null },
       ]
     },
     {
       id: 2,
       restaurant: "Pizza Corner",
-      totalAmount: 89.75,
+      totalAmount: 28720, // 89.75 USD * 320 LKR/USD
       createdDate: "2024-01-14",
       dueDate: "Yesterday, 1:30 PM",
       status: "completed",
       participants: [
-        { name: "Alice Johnson", email: "alice@company.com", amount: 22.44, status: "paid", paymentMethod: "digital" },
-        { name: "Bob Smith", email: "bob@company.com", amount: 22.44, status: "paid", paymentMethod: "cash" },
-        { name: "Carol White", email: "carol@company.com", amount: 22.44, status: "paid", paymentMethod: "digital" },
-        { name: "Daniel Brown", email: "daniel@company.com", amount: 22.43, status: "paid", paymentMethod: "digital" },
+        { name: "Alice Johnson", email: "alice@company.com", amount: 7180, status: "paid", paymentMethod: "digital" },
+        { name: "Bob Smith", email: "bob@company.com", amount: 7180, status: "paid", paymentMethod: "cash" },
+        { name: "Carol White", email: "carol@company.com", amount: 7180, status: "paid", paymentMethod: "digital" },
+        { name: "Daniel Brown", email: "daniel@company.com", amount: 7180, status: "paid", paymentMethod: "digital" },
       ]
     }
   ]);
@@ -146,7 +146,7 @@ const PaymentTracking = () => {
                   </div>
                   <div className="text-left sm:text-right">
                     <div className="text-2xl font-bold text-foreground">
-                      ${order.totalAmount.toFixed(2)}
+                      LKR {order.totalAmount.toLocaleString()}
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {progress.paidCount}/{progress.totalCount} paid
@@ -167,8 +167,8 @@ const PaymentTracking = () => {
                     />
                   </div>
                   <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>Paid: ${paidAmount.toFixed(2)}</span>
-                    <span>Pending: ${pendingAmount.toFixed(2)}</span>
+                    <span>Paid: LKR {paidAmount.toLocaleString()}</span>
+                    <span>Pending: LKR {pendingAmount.toLocaleString()}</span>
                   </div>
                 </div>
               </CardHeader>
@@ -217,7 +217,7 @@ const PaymentTracking = () => {
                           
                           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                             <div className="text-left sm:text-right">
-                              <div className="font-medium">${participant.amount.toFixed(2)}</div>
+                              <div className="font-medium">LKR {participant.amount.toLocaleString()}</div>
                               {participant.paymentMethod && (
                                 <div className="text-xs text-muted-foreground capitalize">
                                   {participant.paymentMethod}
@@ -251,14 +251,14 @@ const PaymentTracking = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t">
                     <div className="text-center p-3 bg-muted/50 rounded-lg">
                       <div className="text-lg font-semibold text-success">
-                        ${paidAmount.toFixed(2)}
+                        LKR {paidAmount.toLocaleString()}
                       </div>
                       <div className="text-sm text-muted-foreground">Collected</div>
                     </div>
                     
                     <div className="text-center p-3 bg-muted/50 rounded-lg">
                       <div className="text-lg font-semibold text-warning">
-                        ${pendingAmount.toFixed(2)}
+                        LKR {pendingAmount.toLocaleString()}
                       </div>
                       <div className="text-sm text-muted-foreground">Pending</div>
                     </div>

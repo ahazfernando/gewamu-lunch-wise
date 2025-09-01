@@ -269,7 +269,7 @@ const CreateOrder = () => {
                     <div key={item.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg gap-3">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                         <span className="font-medium">{item.name}</span>
-                        <span className="text-muted-foreground">${item.price.toFixed(2)}</span>
+                        <span className="text-muted-foreground">LKR {item.price.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center gap-2 justify-end">
                         <Button
@@ -314,7 +314,7 @@ const CreateOrder = () => {
                   }}
                 />
                 <p className="text-sm text-muted-foreground mt-1">
-                  Calculated: ${calculatedTotal.toFixed(2)}
+                  Calculated: LKR {calculatedTotal.toLocaleString()}
                 </p>
               </div>
             </CardContent>
@@ -431,11 +431,11 @@ const CreateOrder = () => {
               <div className="border-t pt-4">
                 <div className="flex justify-between text-lg font-semibold">
                   <span>Total Bill:</span>
-                  <span>${displayTotal.toFixed(2)}</span>
+                  <span>LKR {displayTotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>Assigned:</span>
-                  <span>${assignedTotal.toFixed(2)}</span>
+                  <span>LKR {assignedTotal.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -445,7 +445,7 @@ const CreateOrder = () => {
                   <div className="text-sm">
                     <div className="font-medium text-destructive">Amount Mismatch</div>
                     <div className="text-muted-foreground">
-                      Difference: ${Math.abs(displayTotal - assignedTotal).toFixed(2)}
+                      Difference: LKR {Math.abs(displayTotal - assignedTotal).toLocaleString()}
                     </div>
                   </div>
                 </div>
