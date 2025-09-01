@@ -207,9 +207,9 @@ const CreateOrder = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Order Details */}
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        {/* Order Details - 8 columns on xl screens */}
+        <div className="xl:col-span-8 space-y-6">
           {/* Restaurant Information */}
           <Card>
             <CardHeader>
@@ -406,9 +406,9 @@ const CreateOrder = () => {
           </Card>
         </div>
 
-        {/* Order Summary */}
-        <div>
-          <Card className="lg:sticky lg:top-6">
+        {/* Order Summary - 4 columns on xl screens */}
+        <div className="xl:col-span-4">
+          <Card className="xl:sticky xl:top-6">
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
             </CardHeader>

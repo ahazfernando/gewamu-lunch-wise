@@ -25,13 +25,13 @@ const Login = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate login
-    navigate("/dashboard");
+    navigate("/");
   };
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate registration
-    navigate("/dashboard");
+    navigate("/");
   };
 
   return (

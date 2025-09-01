@@ -248,7 +248,7 @@ const PaymentTracking = () => {
                   </div>
 
                   {/* Order Summary */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t">
                     <div className="text-center p-3 bg-muted/50 rounded-lg">
                       <div className="text-lg font-semibold text-success">
                         ${paidAmount.toFixed(2)}

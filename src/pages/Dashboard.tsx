@@ -97,14 +97,6 @@ const Dashboard = () => {
         </div>
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <Button 
-            variant="outline" 
-            onClick={() => navigate("/notifications")}
-            className="flex items-center gap-2 w-full sm:w-auto"
-          >
-            <Clock className="h-4 w-4" />
-            <span className="sm:inline">Join Order</span>
-          </Button>
-          <Button 
             onClick={() => navigate("/create-order")}
             className="flex items-center gap-2 w-full sm:w-auto"
           >
@@ -115,7 +107,7 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
           <Card key={index}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -133,7 +125,7 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Active Lunch Orders */}
         <Card>
           <CardHeader>
@@ -258,7 +250,7 @@ const Dashboard = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <Button 
               variant="outline" 
               className="h-20 flex flex-col gap-2"
