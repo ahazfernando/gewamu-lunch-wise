@@ -14,9 +14,9 @@ export function AppLayout() {
       <div className="min-h-screen bg-background pb-32">
         <header className="h-16 border-b bg-background flex items-center px-6">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="Gewamu Logo" className="h-10 w-auto" />
+            <img src={logo} alt="LunchPay Logo" className="h-10 w-auto" />
             <div>
-              <h1 className="text-xl font-semibold text-foreground">Gewamu</h1>
+              <h1 className="text-xl font-semibold text-foreground">LunchPay</h1>
               <p className="text-sm text-muted-foreground">Smart Office Lunch Splitter</p>
             </div>
           </div>
@@ -37,9 +37,9 @@ export function AppLayout() {
           <header className="h-16 border-b bg-background flex items-center px-6">
             <SidebarTrigger />
             <div className="ml-4 flex items-center gap-3">
-              <img src={logo} alt="Gewamu Logo" className="h-10 w-auto" />
+              <img src={logo} alt="LunchPay Logo" className="h-10 w-auto" />
               <div>
-                <h1 className="text-xl font-semibold text-foreground">Gewamu</h1>
+                <h1 className="text-xl font-semibold text-foreground">LunchPay</h1>
                 <p className="text-sm text-muted-foreground">Smart Office Lunch Splitter</p>
               </div>
             </div>
