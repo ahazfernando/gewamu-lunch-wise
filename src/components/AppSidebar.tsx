@@ -25,6 +25,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navigationItems = [
   { title: "Home", url: "/", icon: Home },
@@ -40,6 +41,7 @@ export function AppSidebar() {
   const location = useLocation();
   const currentPath = location.pathname;
   const isCollapsed = state === "collapsed";
+  const { signOut } = useAuth();
 
   const isActive = (path: string) => currentPath === path;
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
@@ -83,10 +85,13 @@ export function AppSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <NavLink to="/login" className="text-sidebar-foreground hover:bg-destructive/20 hover:text-destructive">
+              <button 
+                onClick={signOut}
+                className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-sidebar-foreground hover:bg-destructive/20 hover:text-destructive rounded-md transition-colors"
+              >
                 <LogOut className="h-6 w-6" />
                 {!isCollapsed && <span>Logout</span>}
-              </NavLink>
+              </button>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

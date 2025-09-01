@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,9 +6,14 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building2, Mail, Lock, Users } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { user, signIn, signUp } = useAuth();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -22,16 +27,87 @@ const Login = () => {
     name: ""
   });
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login
-    navigate("/");
+    
+    if (!loginData.email || !loginData.password) {
+      toast({
+        variant: "destructive",
+        title: "Validation Error",
+        description: "Please fill in all required fields.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await signIn(loginData.email, loginData.password);
+    setLoading(false);
+    
+    // Error handling is done in the auth context
+    if (!error) {
+      // Success toast is shown in auth context
+    }
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate registration
-    navigate("/");
+    
+    if (!registerData.email || !registerData.password || !registerData.name) {
+      toast({
+        variant: "destructive",
+        title: "Validation Error",
+        description: "Please fill in all required fields.",
+      });
+      return;
+    }
+
+    if (registerData.password !== registerData.confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Password Mismatch",
+        description: "Passwords do not match.",
+      });
+      return;
+    }
+
+    if (registerData.password.length < 6) {
+      toast({
+        variant: "destructive",
+        title: "Password Too Short",
+        description: "Password must be at least 6 characters long.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await signUp(
+      registerData.email, 
+      registerData.password,
+      {
+        name: registerData.name,
+        office_id: registerData.officeId,
+      }
+    );
+    setLoading(false);
+    
+    // Error handling is done in the auth context
+    if (!error) {
+      // Reset form on success
+      setRegisterData({
+        email: "",
+        password: "",
+        confirmPassword: "",
+        officeId: "",
+        name: ""
+      });
+    }
   };
 
   return (
@@ -102,8 +178,8 @@ const Login = () => {
                   </div>
                 </div>
                 
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Logging in..." : "Login"}
                 </Button>
                 
                 <div className="text-center">
@@ -190,8 +266,8 @@ const Login = () => {
                   </div>
                 </div>
                 
-                <Button type="submit" className="w-full">
-                  Register
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Creating account..." : "Register"}
                 </Button>
               </form>
             </TabsContent>
